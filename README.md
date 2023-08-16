@@ -1,8 +1,12 @@
 # sketch-polls
 
-Implements a collection of web components under the 'poll-party' project name.
+Implements web components under the 'poll-party' project name.
 
 The single component is also called 'poll-party' and it can be used to add a live poll to any web page, given a PartyKit server to connect to.
+
+Built using [Stencil](https://stenciljs.com/).
+
+![image](/assets/poll-party.gif)
 
 ## Experimental!
 
@@ -37,6 +41,8 @@ To create a new poll: change the HTML. The PartyKit server doesn't know about th
 - [ ] Publish the web component to npmjs so anyone can use it
 - [ ] Deploy the PartyKit server so that there's a public host to use
 - [ ] Add a mini front-end on the server to see all current polls
+- [ ] The component doesn't show an error if it can't connect to PartyKit: it should, as votes won't be counted
+- [ ] Poll expiry dates
 
 ## Notes
 
