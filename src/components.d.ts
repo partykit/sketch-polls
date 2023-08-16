@@ -22,8 +22,7 @@ export namespace Components {
     }
     interface PollParty {
         "host": string;
-        "name": string;
-        "party": string;
+        "party": string | null;
     }
 }
 declare global {
@@ -61,8 +60,7 @@ declare namespace LocalJSX {
     }
     interface PollParty {
         "host"?: string;
-        "name"?: string;
-        "party"?: string;
+        "party"?: string | null;
     }
     interface IntrinsicElements {
         "my-component": MyComponent;

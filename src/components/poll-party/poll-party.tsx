@@ -1,15 +1,17 @@
-import { Component, Prop, State, h } from "@stencil/core";
+import { Component, Prop, State, h, Element } from "@stencil/core";
 import PartySocket from "partysocket";
 import state from "./store";
+import hash from "object-hash";
 
 type Poll = {
   question: string;
   options: {
-    [key: string]: number;
+    [key: string]: string;
   };
-  votes?: {
-    [key: string]: number;
-  };
+};
+
+type Votes = {
+  [key: string]: number;
 };
 
 @Component({
@@ -18,55 +20,75 @@ type Poll = {
   shadow: true,
 })
 export class PollParty {
+  @Element() hostEl: HTMLDivElement;
   @Prop() host: string;
-  @Prop() party: string = "party";
-  @Prop() name: string; // partykit room
-
+  @Prop() party: string | null = null;
+  @State() room: string; // derived from poll
   @State() poll: Poll;
+  @State() votes: Votes = {};
   @State() socket: PartySocket;
 
-  async componentDidLoad() {
-    this.updatePoll();
+  async componentWillLoad() {
+    // Build the poll from elements in the DOM. There should be an
+    // element called 'question' and a number of elements called 'option'.
+    // Each option element has an id attr and a text node.
+    const options: { [key: string]: string } = Object.fromEntries(
+      Array.from(this.hostEl.querySelectorAll("option")).map((el) => [
+        el.id,
+        el.innerHTML,
+      ])
+    );
+    const poll: Poll = {
+      question: this.hostEl.querySelector("question").innerHTML,
+      options,
+    };
+
+    this.poll = poll;
+    this.room = hash(poll);
 
     this.socket = new PartySocket({
       host: this.host,
-      room: this.name,
+      party: this.party,
+      room: this.room,
     });
 
     this.socket.addEventListener("message", async (e) => {
-      const { type } = JSON.parse(e.data);
-      if (type === "update") {
-        await this.updatePoll();
+      const msg = JSON.parse(e.data);
+      if (msg.type === "sync") {
+        this.votes = msg.votes;
       }
     });
+
+    console.log("poll", this.poll, "room", this.room);
   }
 
-  async updatePoll() {
-    const res = await fetch(`http://${this.host}/${this.party}/${this.name}`);
-    this.poll = await res.json();
+  async componentDidLoad() {
+    // Nothing
   }
 
   async submitVote(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const option = formData.get("option") as string;
-    await fetch(`http://${this.host}/${this.party}/${this.name}`, {
-      method: "POST",
-      body: JSON.stringify({ option: option }),
-    });
+    this.socket.send(
+      JSON.stringify({
+        type: "vote",
+        option: option,
+      })
+    );
     // add this.name to state.hasVoted (a list)
-    state.hasVoted = [...state.hasVoted, this.name];
+    state.hasVoted = [...state.hasVoted, this.room];
     // Update the poll results locally. This will be overwritten when the socket
-    // triggers this.updatePoll();
-    this.poll.votes = {
-      ...this.poll.votes,
-      [option]: (this.poll.votes[option] || 0) + 1,
+    // sends a sync message
+    this.votes = {
+      ...this.votes,
+      [option]: (this.votes[option] || 0) + 1,
     };
   }
 
   async resetPoll() {
-    // remove this.name from state.hasVoted (a list)
-    state.hasVoted = state.hasVoted.filter((name) => name !== this.name);
+    // remove this.room from state.hasVoted (a list)
+    state.hasVoted = state.hasVoted.filter((name) => name !== this.room);
   }
 
   render() {
@@ -74,7 +96,7 @@ export class PollParty {
       return <div>Loading...</div>;
     }
 
-    const hasVoted = state.hasVoted.find((name) => name === this.name)
+    const hasVoted = state.hasVoted.find((room) => room === this.room)
       ? true
       : false;
 
@@ -86,7 +108,7 @@ export class PollParty {
             <h2>Results</h2>
             <ul>
               {Object.entries(this.poll.options).map(([option, desc]) => {
-                const votes = this.poll.votes[option] || 0;
+                const votes = this.votes[option] || 0;
                 return (
                   <li>
                     {desc}: <strong>{votes}</strong>
