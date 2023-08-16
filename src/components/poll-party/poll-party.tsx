@@ -100,9 +100,17 @@ export class PollParty {
       ? true
       : false;
 
+    const totalVotes = Object.values(this.votes).reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
+
     return (
       <section>
         <h1>{this.poll.question}</h1>
+        <p>
+          <i>Total votes so far: {totalVotes}</i>
+        </p>
         {hasVoted ? (
           <div class="poll-party-results">
             <h2>Results</h2>
