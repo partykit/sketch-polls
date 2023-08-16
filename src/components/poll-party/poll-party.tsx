@@ -1,4 +1,4 @@
-import { Component, Prop, State, h, Element } from "@stencil/core";
+import { Component, Prop, State, h, Element, Host } from "@stencil/core";
 import PartySocket from "partysocket";
 import state from "./store";
 import hash from "object-hash";
@@ -27,6 +27,9 @@ export class PollParty {
   @State() poll: Poll;
   @State() votes: Votes = {};
   @State() socket: PartySocket;
+
+  // For the form
+  @State() selectedOption: string | null = null;
 
   async componentWillLoad() {
     // Build the poll from elements in the DOM. There should be an
@@ -58,8 +61,6 @@ export class PollParty {
         this.votes = msg.votes;
       }
     });
-
-    console.log("poll", this.poll, "room", this.room);
   }
 
   async componentDidLoad() {
@@ -68,8 +69,9 @@ export class PollParty {
 
   async submitVote(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const option = formData.get("option") as string;
+    //const formData = new FormData(e.target);
+    //const option = formData.get("option") as string;
+    const option = this.selectedOption;
     this.socket.send(
       JSON.stringify({
         type: "vote",
@@ -84,6 +86,7 @@ export class PollParty {
       ...this.votes,
       [option]: (this.votes[option] || 0) + 1,
     };
+    this.selectedOption = null;
   }
 
   async resetPoll() {
@@ -104,45 +107,74 @@ export class PollParty {
       (acc, curr) => acc + curr,
       0
     );
+    const maxVotes = Math.max(...Object.values(this.votes));
 
     return (
-      <section>
-        <h1>{this.poll.question}</h1>
-        <p>
-          <i>Total votes so far: {totalVotes}</i>
-        </p>
+      <Host>
+        <header>
+          <h1>{this.poll.question}</h1>
+          <div class="total">
+            {totalVotes} vote{totalVotes == 1 ? "" : "s"}
+          </div>
+        </header>
         {hasVoted ? (
           <div class="poll-party-results">
-            <h2>Results</h2>
-            <ul>
+            <table>
               {Object.entries(this.poll.options).map(([option, desc]) => {
                 const votes = this.votes[option] || 0;
                 return (
-                  <li>
-                    {desc}: <strong>{votes}</strong>
-                  </li>
+                  <tr>
+                    <td>{desc}</td>
+                    <td>
+                      <strong>{votes}</strong>
+                    </td>
+                    <td>
+                      <div class="bar">
+                        <div
+                          class="bar-inner"
+                          style={{
+                            width: `${(votes / maxVotes) * 100}%`,
+                          }}
+                        ></div>
+                      </div>
+                    </td>
+                  </tr>
                 );
               })}
-            </ul>
-            <button onClick={() => this.resetPoll()}>Vote Again</button>
+            </table>
+            <button class="vote-again" onClick={() => this.resetPoll()}>
+              Vote Again
+            </button>
           </div>
         ) : (
           <div class="poll-party-vote">
-            <h2>Vote</h2>
             <form onSubmit={(e) => this.submitVote(e)}>
-              {Object.entries(this.poll.options).map(([option, desc]) => (
-                <div>
-                  <label>
-                    <input type="radio" name="option" value={option} />
-                    {desc}
-                  </label>
-                </div>
-              ))}
-              <input type="submit" value="Submit" />
+              <div class="options">
+                {Object.entries(this.poll.options).map(([option, desc]) => (
+                  <div>
+                    <label>
+                      <input
+                        type="radio"
+                        name="option"
+                        value={option}
+                        onChange={() => {
+                          this.selectedOption = option;
+                        }}
+                      />
+                      {desc}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <input
+                type="submit"
+                value="Submit"
+                disabled={this.selectedOption === null}
+              />
             </form>
           </div>
         )}
-      </section>
+      </Host>
     );
   }
 }

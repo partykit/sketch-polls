@@ -3,44 +3,71 @@
 }
 
 :host {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  margin: 1rem;
-  border-radius: 8px;
-  max-width: 50%;
+  @apply p-6 outline outline-1 outline-stone-400 rounded-sm;
+  @apply flex flex-col gap-4;
+  @apply min-w-fit w-20;
 }
 
-:host h1, :host h2 {
-  margin: 0 0 0.5rem 0;
+:host header {
+  @apply flex flex-row gap-4 justify-start items-center;
 }
 
-:host .poll-party-results, :host .poll-party-vote {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  justify-items: start;
-  align-items: start;
+:host header .total {
+  @apply text-sm px-3 py-1 rounded-full outline outline-1 outline-stone-400;
+}
+
+:host h1 {
+  @apply text-2xl font-bold;
 }
 
 :host .poll-party-vote form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  justify-items: start;
-  align-items: start;
+  @apply flex flex-col gap-4 justify-start items-start;
+}
+
+:host .poll-party-vote form .options {
+  @apply flex flex-col gap-3;
+}
+
+:host .poll-party-vote form input[type="radio"] {
+  @apply w-3 h-3;
 }
 
 :host .poll-party-vote form label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  @apply flex items-center gap-2;
+}
+:host .poll-party-vote form input[type="submit"] {
+  @apply px-4 py-2 rounded-sm bg-stone-400 text-white hover:bg-stone-500;
+  @apply disabled:bg-stone-300 disabled:hover:bg-stone-300 disabled:cursor-not-allowed;
 }
 
-:host .poll-party-results ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+:host .poll-party-results {
+  @apply w-full flex flex-col gap-8 justify-start items-start;
+}
+
+:host .poll-party-results table {
+  @apply w-full;
+}
+
+:host .poll-party-results table td {
+  @apply px-2;
+}
+
+:host .poll-party-results table .bar {
+  @apply w-full h-3;
+}
+
+:host .poll-party-results table .bar-inner {
+  @apply h-3 bg-blue-600;
+}
+
+:host .poll-party-results table td:not(:last-child){
+  white-space: nowrap;
+}
+
+:host .poll-party-results table td:last-child{
+  width: 100%;
+}
+
+:host .poll-party-results button.vote-again {
+  @apply underline text-sm text-stone-600 hover:text-stone-700;
 }

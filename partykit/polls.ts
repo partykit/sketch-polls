@@ -1,4 +1,4 @@
-import type { PartyKitServer, PartyKitRoom } from "partykit/server";
+import type { PartyKitServer } from "partykit/server";
 
 // room is completely arbitrary for this partyserver.
 // For the client, room is the object-hash of the questions and options.

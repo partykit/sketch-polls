@@ -6,32 +6,12 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
-    }
     interface PollParty {
         "host": string;
         "party": string | null;
     }
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
-    }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
-    };
     interface HTMLPollPartyElement extends Components.PollParty, HTMLStencilElement {
     }
     var HTMLPollPartyElement: {
@@ -39,31 +19,15 @@ declare global {
         new (): HTMLPollPartyElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
         "poll-party": HTMLPollPartyElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
-    }
     interface PollParty {
         "host"?: string;
         "party"?: string | null;
     }
     interface IntrinsicElements {
-        "my-component": MyComponent;
         "poll-party": PollParty;
     }
 }
@@ -71,7 +35,6 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "poll-party": LocalJSX.PollParty & JSXBase.HTMLAttributes<HTMLPollPartyElement>;
         }
     }
