@@ -1,0 +1,5 @@
+{
+    "main": "partykit/polls.ts",
+    "name": "poll-party",
+    "persist": false
+}

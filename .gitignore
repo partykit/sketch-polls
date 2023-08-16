@@ -1,3 +1,10 @@
+# Project
+.partykit
+.stencil
+dist/
+www/
+loader/
+
 # Logs
 logs
 *.log

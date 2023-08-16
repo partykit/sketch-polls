@@ -1,0 +1,19 @@
+{
+    "animals": {
+        "question": "What is the best animal?",
+        "options": {
+            "dog": "Dogs",
+            "cat": "Cats, obviously",
+            "monkey": "Monkeysssss",
+            "ant": "Ants"
+        }
+    },
+    "lk99": {
+        "question": "Is LK-99 a superconductor?",
+        "options": {
+            "yes": "Yes, we are so back",
+            "no-whoops": "No, and it was experimental error",
+            "no-scam": "No, and it was a scam"
+        }
+    }
+}
