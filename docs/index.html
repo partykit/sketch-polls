@@ -4,9 +4,34 @@
   <title>poll-party demo</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type='module' src='https://unpkg.com/poll-party@0.0.1'></script>
 </head>
 <body>
-  <h1>Hello, World!</h1>
+  <h1>poll-party demo</h1>
+
+  <poll-party host="poll-party.genmon.partykit.dev">
+    <question>What is the best animal?</question>
+    <option id="dogs">Dogs</option>
+    <option id="cats">Cats, obviously</option>
+    <option id="monkeys">Monkeysssss</option>
+    <option id="ants">Ants</option>
+    <option id="dk">Donkey Kong</option>
+  </poll-party>
+
+  <p>
+    View source to see:
+  </p>
+
+  <ul>
+    <li>How the component is imported in a script tag</li>
+    <li>How to set the PartyKit host</li>
+    <li>How to set up the poll-party with question and options.</li>
+  </ul>
+
+  <p>
+    <a href="https://github.com/partykit/sketch-polls">poll-party on GitHub &rarr;</a>
+  </p>
+
 </body>
 </html>
 
