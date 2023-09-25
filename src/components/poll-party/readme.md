@@ -10,8 +10,7 @@
 | Property | Attribute | Description | Type     | Default     |
 | -------- | --------- | ----------- | -------- | ----------- |
 | `host`   | `host`    |             | `string` | `undefined` |
-| `name`   | `name`    |             | `string` | `undefined` |
-| `party`  | `party`   |             | `string` | `"party"`   |
+| `party`  | `party`   |             | `string` | `null`      |
 
 
 ----------------------------------------------
