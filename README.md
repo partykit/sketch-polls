@@ -1,8 +1,6 @@
 # sketch-polls
 
-Implements web components under the 'poll-party' project name.
-
-The single component is also called 'poll-party' and it can be used to add a live poll to any web page, given a PartyKit server to connect to.
+This web component adds a new 'poll-party' element which is used to add a live poll to any web page, given a PartyKit server to connect to.
 
 Built using [Stencil](https://stenciljs.com/).
 
@@ -12,15 +10,13 @@ Built using [Stencil](https://stenciljs.com/).
 
 This component was created during [Matt](https://interconnected.org)'s summer 2023 residency. The purpose is to experiment with multiplayer interactions, and simultaneously see what PartyKit can do. It's called a sketch because it's lightweight and quick, and because we learn something in making it.
 
-## What you'll find here
+## Usage
 
-The web component allows you to create a live poll straight from HTML. You import the component, and give it a question and some options.
+The web component allows you to create a live poll straight from HTML, from otherwise static websites. You import the component, and give it a question and some options.
 
 ![image](/assets/source.png)
 
-You also have to provide a host. That's where your PartyKit back-end will run. You can use a dev server: leave the host as `127.0.0.1:1999` and, from this repo, run:
-
-`npx partykit dev`
+You also have to provide a host. That's where your PartyKit back-end will run. See below.
 
 The poll comes to life and looks like this:
 
@@ -36,17 +32,33 @@ The results look like this:
 
 To create a new poll: change the HTML. The PartyKit server doesn't know about the question or options specifically -- it stores the votes against a hash of the poll text. So if you change the question or options, it's a new poll.
 
+### Importing the component
+
+The component is published [on npm as poll-party](https://www.npmjs.com/package/poll-party).
+
+In production, add this script tag to your HTML head:
+
+`<script type='module' src='https://unpkg.com/poll-party@0.0.1'></script>`
+
+### The Partykit back-end
+
+In development: use `127.0.0.1:1999` and, from this repo, run:
+
+`npx partykit dev`
+
+In production: use the host of your own PartyKit server (you'll be given it when you run `npx partykit deploy`) or use: `poll-party.genmon.partykit.dev`.
+
+If you'd like to add features (e.g. poll expiry dates) start by building on the server in `partykit/polls.ts`.
+
 ## To do
 
-- [ ] Publish the web component to npmjs so anyone can use it
-- [ ] Deploy the PartyKit server so that there's a public host to use
 - [ ] Add a mini front-end on the server to see all current polls
 - [ ] The component doesn't show an error if it can't connect to PartyKit: it should, as votes won't be counted
-- [ ] Poll expiry dates
+- [ ] If the poll-party element has a `styles="false"` attribute, it should not use the default styles, and instead rely on the host page to style it
 
-## Notes
+## Using StencilJS
 
-On how this repo was set up...
+Follow these instructions to start developing a new component.
 
 From an empty directory:
 
