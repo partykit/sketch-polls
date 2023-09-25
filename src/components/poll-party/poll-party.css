@@ -2,72 +2,66 @@
   display: block;
 }
 
-:host {
-  @apply p-6 outline outline-1 outline-stone-400 rounded-sm;
-  @apply flex flex-col gap-4;
-  @apply min-w-fit w-20;
+:host .poll-party.styled {
+  @apply w-80 divide-y divide-gray-200 border border-gray-200 rounded-lg bg-white shadow font-sans;
 }
 
-:host header {
-  @apply flex flex-row gap-4 justify-start items-center;
+:host .poll-party.styled header {
+  @apply p-4 flex flex-row justify-between items-center gap-2;
 }
 
-:host header .total {
-  @apply text-sm px-3 py-1 rounded-full outline outline-1 outline-stone-400;
+:host .poll-party.styled header h1 {
+  @apply font-bold;
 }
 
-:host h1 {
-  @apply text-2xl font-bold;
+:host .poll-party.styled header .total {
+  @apply text-sm px-3 py-1 bg-gray-200 rounded-full whitespace-nowrap;
 }
 
-:host .poll-party-vote form {
-  @apply flex flex-col gap-4 justify-start items-start;
+:host .poll-party.styled form {
+  @apply divide-y divide-gray-200; 
 }
 
-:host .poll-party-vote form .options {
-  @apply flex flex-col gap-3;
+:host .poll-party.styled form .options {
+  @apply p-4 flex flex-col gap-3
 }
 
-:host .poll-party-vote form input[type="radio"] {
-  @apply w-3 h-3;
+:host .poll-party.styled form .options label {
+  @apply flex justify-start items-center gap-2;
 }
 
-:host .poll-party-vote form label {
-  @apply flex items-center gap-2;
-}
-:host .poll-party-vote form input[type="submit"] {
-  @apply px-4 py-2 rounded-sm bg-stone-400 text-white hover:bg-stone-500;
-  @apply disabled:bg-stone-300 disabled:hover:bg-stone-300 disabled:cursor-not-allowed;
+:host .poll-party.styled form button {
+  @apply p-4 w-full font-bold bg-blue-100 hover:bg-blue-200 disabled:bg-gray-100 disabled:text-gray-400 rounded-b-lg;
 }
 
-:host .poll-party-results {
-  @apply w-full flex flex-col gap-8 justify-start items-start;
+:host .poll-party.styled .results {
+  @apply p-4 flex flex-col gap-6;
 }
 
-:host .poll-party-results table {
-  @apply w-full;
+:host .poll-party.styled .results table {
+  @apply w-full
 }
 
-:host .poll-party-results table td {
-  @apply px-2;
-}
-
-:host .poll-party-results table .bar {
+:host .poll-party.styled .results table .bar {
   @apply w-full h-3;
 }
 
-:host .poll-party-results table .bar-inner {
-  @apply h-3 bg-blue-600;
+:host .poll-party.styled .results table .bar-inner {
+  @apply h-3 bg-blue-400 rounded-r;
 }
 
-:host .poll-party-results table td:not(:last-child){
-  white-space: nowrap;
+:host .poll-party.styled .results table td {
+  @apply pb-2;
 }
 
-:host .poll-party-results table td:last-child{
-  width: 100%;
+:host .poll-party.styled .results table td:not(:last-child){
+  @apply pr-3 whitespace-nowrap;
 }
 
-:host .poll-party-results button.vote-again {
-  @apply underline text-sm text-stone-600 hover:text-stone-700;
+:host .poll-party.styled .results table td:last-child{
+  @apply w-full;
+}
+
+:host .poll-party.styled .results a {
+  @apply text-sm underline text-gray-400 hover:text-gray-700 cursor-pointer;
 }

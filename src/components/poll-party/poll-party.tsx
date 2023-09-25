@@ -68,6 +68,7 @@ export class PollParty {
   }
 
   async submitVote(e) {
+    console.log("submitting vote");
     e.preventDefault();
     //const formData = new FormData(e.target);
     //const option = formData.get("option") as string;
@@ -111,69 +112,65 @@ export class PollParty {
 
     return (
       <Host>
-        <header>
-          <h1>{this.poll.question}</h1>
-          <div class="total">
-            {totalVotes} vote{totalVotes == 1 ? "" : "s"}
-          </div>
-        </header>
-        {hasVoted ? (
-          <div class="poll-party-results">
-            <table>
-              {Object.entries(this.poll.options).map(([option, desc]) => {
-                const votes = this.votes[option] || 0;
-                return (
-                  <tr>
-                    <td>{desc}</td>
-                    <td>
-                      <strong>{votes}</strong>
-                    </td>
-                    <td>
-                      <div class="bar">
-                        <div
-                          class="bar-inner"
-                          style={{
-                            width: `${(votes / maxVotes) * 100}%`,
-                          }}
-                        ></div>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </table>
-            <button class="vote-again" onClick={() => this.resetPoll()}>
-              Vote Again
-            </button>
-          </div>
-        ) : (
-          <div class="poll-party-vote">
+        <div class="poll-party styled">
+          <header>
+            <h1>{this.poll.question}</h1>
+            <div class="total">
+              {totalVotes} vote{totalVotes == 1 ? "" : "s"}
+            </div>
+          </header>
+          {hasVoted ? (
+            <div class="results">
+              <table>
+                {Object.entries(this.poll.options).map(([option, desc]) => {
+                  const votes = this.votes[option] || 0;
+                  return (
+                    <tr>
+                      <td>{desc}</td>
+                      <td>
+                        <strong>{votes}</strong>
+                      </td>
+                      <td>
+                        <div class="bar">
+                          <div
+                            class="bar-inner"
+                            style={{
+                              width: `${(votes / maxVotes) * 100}%`,
+                            }}
+                          ></div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </table>
+              <div>
+                <a onClick={() => this.resetPoll()}>Vote Again</a>
+              </div>
+            </div>
+          ) : (
             <form onSubmit={(e) => this.submitVote(e)}>
               <div class="options">
                 {Object.entries(this.poll.options).map(([option, desc]) => (
-                  <div>
-                    <label>
-                      <input
-                        type="radio"
-                        name="option"
-                        value={option}
-                        onChange={() => {
-                          this.selectedOption = option;
-                        }}
-                      />
-                      {desc}
-                    </label>
-                  </div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="option"
+                      value={option}
+                      onChange={() => {
+                        this.selectedOption = option;
+                      }}
+                    />
+                    {desc}
+                  </label>
                 ))}
               </div>
-              <input
-                type="submit"
-                value="Submit"
-                disabled={this.selectedOption === null}
-              />
+              <button type="submit" disabled={this.selectedOption === null}>
+                Vote
+              </button>
             </form>
-          </div>
-        )}
+          )}
+        </div>
       </Host>
     );
   }
