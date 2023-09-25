@@ -50,7 +50,7 @@ On how this repo was set up...
 
 From an empty directory:
 
-`npm stencil init` (select 'component')
+`npm init stencil` (select 'component')
 
 The project was named 'poll-party' and then the files moved to the top-level directory.
 
