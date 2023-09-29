@@ -4,6 +4,8 @@ This web component adds a new 'poll-party' element which is used to add a live p
 
 Built using [Stencil](https://stenciljs.com/).
 
+Check out the [live demo](https://partykit.github.io/sketch-polls/).
+
 ![image](/assets/poll-party.gif)
 
 ## Experimental!
