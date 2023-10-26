@@ -40,13 +40,17 @@ The component is published [on npm as poll-party](https://www.npmjs.com/package/
 
 In production, add this script tag to your HTML head:
 
-`<script type='module' src='https://unpkg.com/poll-party@0.0.1'></script>`
+```html
+<script type='module' src='https://unpkg.com/poll-party@0.0.1'></script>
+```
 
 ### The Partykit back-end
 
 In development: use `127.0.0.1:1999` and, from this repo, run:
 
-`npx partykit dev`
+```sh
+npx partykit dev
+```
 
 In production: use the host of your own PartyKit server (you'll be given it when you run `npx partykit deploy`) or use: `poll-party.genmon.partykit.dev`.
 
